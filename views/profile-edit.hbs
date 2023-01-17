@@ -1,0 +1,20 @@
+<div class="container-fluid">
+    <form class="col-lg-6 col-md-8 col-12 mt-3" method="post" action="/user/edit">
+      <div class="mb-3 fs-4">
+        Edit Profile
+      </div>
+        <div class="mb-3">
+          <label for="uname" class="form-label">Username</label>
+          <input type="text" name="username" class="form-control" id="uname" value="{{details.username}}" >
+        </div>
+        <div class="mb-3">
+          <label for="cid" class="form-label">Mobile</label>
+          <input type="text" name="mobile" class="form-control" id="cid" value="{{details.mobile}}" >
+        </div>
+        <div class="mb-3">
+          <label for="key" class="form-label">Product key</label>
+          <input type="text" name="key" class="form-control" id="key" value="{{details.key}}" >
+        </div>
+        <button type="submit" class="btn btn-success">Save</button>
+      </form>
+</div>

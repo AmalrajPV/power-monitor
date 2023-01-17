@@ -1,0 +1,66 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm">
+  <div class="container-fluid">
+    <a class="navbar-brand fs-3" href="/"><i class="fa-solid fa-gauge-high"></i>
+      Power Monitor</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      {{#if user}}
+      <div class="ms-auto">
+        <div class="btn btn-danger" id="status">OFF</div>
+      <button class="btn btn-outline-dark text-warning" id="power-toggle" style="outline: none;" id="toggleBtn" ><i class="fa-solid fa-lightbulb"></i></button>
+        <button
+          type="button"
+          class="btn btn-outline-dark dropdown-toggle "
+          data-bs-toggle="dropdown"
+          data-bs-display="static"
+          aria-expanded="false"
+        >
+          {{user.username}}
+        </button>
+        <ul class="dropdown-menu dropdown-menu-lg-end me-3">
+          <li>
+            <a href="/logout" class="dropdown-item" type="button">Logout</a>
+          </li>
+        </ul>
+      {{/if}}
+      </div>
+    </div>
+  </div>
+</nav>
+<script
+  src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+></script>
+<script id="hscript" data-ukey="{{user.key}}">
+
+  function updateUi(){
+    fetch(`/powerstatus/${$("#hscript").attr("data-ukey")}`).then(res=>res.json()).then((e)=>{
+      if(e.status === true){
+        $("#status").text("ON");
+        $("#status").removeClass("btn-danger");
+        $("#status").addClass("btn-success");
+      }
+      else{
+        $("#status").text("OFF");
+        $("#status").addClass("btn-danger");
+        $("#status").removeClass("btn-success");
+      }
+    })
+  }
+  function changeStatus(){
+    $("#power-toggle").attr('disabled', true)
+    fetch("/powertoggle").then(()=>updateUi()).catch(()=>{})
+    $("#power-toggle").attr('disabled', false)
+  }
+  updateUi();
+  $("#power-toggle").click(changeStatus)
+</script>

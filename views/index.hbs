@@ -1,0 +1,281 @@
+<div class="container-fluid">
+      <div class="row my-3">
+        <div class="col-md-3">
+          <div class="col">
+            <div class="card  bg-body-tertiary mb-3  shadow-sm border-0">
+              <div class="card-body">
+                <div class="mb-4 text-dark">
+                  <h3 class="h4 mb-0">{{details.username}}</h3>
+                </div>
+                <ul class="list-unstyled mb-4">
+                  <li class="mb-3">
+                    <i
+                      data-bs-toggle="tooltip"
+                      data-bs-title="Email"
+                      class="far fa-envelope display-25 me-3 text-secondary"
+                    ></i
+                    >
+                    {{details.email}}
+                  </li>
+                  <li class="mb-3">
+                    <i
+                      data-bs-toggle="tooltip"
+                      data-bs-title="Mobile"
+                      class="fas fa-mobile-alt display-25 me-3 text-secondary"
+                    ></i
+                    >
+                    {{details.mobile}}
+                  </li>
+                  <li class="mb-3">
+                    <i
+                      data-bs-toggle="tooltip"
+                      data-bs-title="Customer id"
+                      class="fa-solid fa-user display-25 me-3 text-secondary"
+                    ></i
+                    >
+                    {{details.cid}}
+                  </li>
+                  <li class="mb-3">
+                    <i
+                      data-bs-toggle="tooltip"
+                      data-bs-title="Key"
+                      class="fa-solid fa-key display-25 me-3 text-secondary"
+                    ></i
+                    >
+                    {{details.key}}
+                  </li>
+                </ul>
+                <a href="/user/edit" class="text-decoration-none text-dark"
+                  ><i class="fa-solid fa-pen-to-square"></i> Edit</a
+                >
+              </div>
+            </div>
+
+            <div class="card border-0 mb-3">
+              <div class="card-body">
+              <div class="mb-2 text-muted">This Month Consumption :</div>
+              <h6 class="mb-0" id="energy">0 KWH</h6>
+              </div>
+            </div>
+
+            <div class="card border-0 mb-3">
+              <a href="/payment-view" class="btn btn-primary">Billing</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-9">
+          <div class="col">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="col">
+                  <div class="row">
+              {{!-- <div class="h6 my-3 text-muted"><strong>Live Data</strong></div> --}}
+                    <div class="col-md-3 col-sm-6 mb-3">
+                      <div
+                        class="card border-0 col bg-body-tertiary shadow-sm"
+                        style="border-radius: 0"
+                      >
+                        <div
+                          class="card-body d-flex flex-column justify-content-between"
+                        >
+                          <div
+                            class="d-flex justify-content-between align-items-center mb-2"
+                          >
+                            <div class="row w-100">
+                              <div
+                                class="col-4 fs-4 d-flex justify-content-center align-items-center"
+                              >
+                                <i class="fa-solid fa-gauge-high" style="color: blue;"></i>
+                              </div>
+                              <div class="col-8">
+                                <div class="mb-2 text-muted">Voltage</div>
+                                <h6 class="mb-0" id="voltage">0 V</h6>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 mb-3">
+                      <div
+                        class="card border-0 col bg-body-tertiary  shadow-sm"
+                        style="border-radius: 0"
+                      >
+                        <div
+                          class="card-body d-flex flex-column justify-content-between"
+                        >
+                          <div
+                            class="d-flex justify-content-between align-items-center mb-2"
+                          >
+                            <div class="row w-100">
+                              <div
+                                class="col-4 fs-4 d-flex justify-content-center align-items-center"
+                              >
+                                <i class="fa-solid fa-bolt" style="color: yellow;"></i>
+                              </div>
+                              <div class="col-8">
+                                <div class="mb-2 text-muted">Current</div>
+                                <h6 class="mb-0" id="current">0 A</h6>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 mb-3">
+                      <div
+                        class="card border-0 col bg-body-tertiary shadow-sm"
+                        style="border-radius: 0"
+                      >
+                        <div
+                          class="card-body d-flex flex-column justify-content-between"
+                        >
+                          <div
+                            class="d-flex justify-content-between align-items-center mb-2"
+                          >
+                            <div class="row w-100">
+                              <div
+                                class="col-4 fs-4 d-flex justify-content-center align-items-center"
+                              >
+                                <i class="fa-solid fa-plug" style="color: green;"></i>
+                              </div>
+                              <div class="col-8">
+                                <div class="mb-2 text-muted">Power</div>
+                                <h6 class="mb-0" id="power">0 W</h6>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 mb-3">
+                      <div
+                        class="card border-0 col bg-body-tertiary shadow-sm"
+                        style="border-radius: 0"
+                      >
+                        <div
+                          class="card-body d-flex flex-column justify-content-between"
+                        >
+                          <div
+                            class="d-flex justify-content-between align-items-center mb-2"
+                          >
+                            <div class="row w-100">
+                              <div
+                                class="col-4 fs-4 d-flex justify-content-center align-items-center"
+                              >
+                                <i class="fa-sharp fa-solid fa-wave-square" style="color: orange;"></i>
+                              </div>
+                              <div class="col-8">
+                                <div class="mb-2 text-muted">Frequency</div>
+                                <h6 class="mb-0" id="frequency">0 Hz</h6>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {{!-- <div class="col-md-6"></div> --}}
+            </div>
+            <div class="row">
+              <div class="h6 my-3 text-muted"><strong>Weekly Statistics</strong></div>
+              <div>
+                <canvas id="myChart" height="100"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+<script
+  src="https://cdn.socket.io/4.5.4/socket.io.min.js"
+  integrity="sha384-/KNQL8Nu5gCHLqwqfQjA689Hhoqgi2S84SNUxC3roTe4EhJ9AfLkp8QiQcU8AMzI"
+  crossorigin="anonymous"
+<div class="container-fluid">
+  crossorigin="anonymous"
+></script>
+
+<script
+  src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+></script>
+
+<script id="script-data" data-key="{{details.key}}">
+  socket = io();
+  socket.on("added", function(data){
+
+    if(data){
+    if($("#script-data").attr("data-key") === data.key){
+      $("#voltage").text(data.voltage + " V"); 
+      $("#current").text(data.current + " A"); 
+      $("#power").text(data.power + " W"); 
+      $("#frequency").text(data.frequency + " Hz"); 
+    }
+    }
+    else{
+      $("#voltage").text(0 + " V"); 
+      $("#current").text(0 + " A"); 
+      $("#power").text(0 + " W"); 
+      $("#energy").text(0 + " KWH"); 
+      $("#frequency").text(0 + " Hz"); 
+    }
+  })
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const ctx = document.getElementById('myChart');
+  const mychart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: [],
+      datasets: [{
+        label: 'Energy Consumed (KWH)',
+        data: [],
+        backgroundColor: ["#3e95cd","#8e5ea2","#3cba9f","#e8c3b9","#c45850","#CD5C5C","#40E0D0"],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+
+  });
+
+  function update(){
+    fetch("/get-weekly-sensor",{
+      headers: {
+        'Cache-Control':'no-cache'
+      }
+    }).then((e)=>e.json()).then((e)=>{
+      mychart.data.datasets[0].data = e.difference;
+      mychart.data.labels = e.id
+  })
+    mychart.update();
+    setTimeout(update, 1000);
+  }
+  update();
+
+
+</script>
+
+<script>
+  setInterval(()=>{
+    fetch("/monthly-energy",{
+      headers: {
+        'Cache-Control':'no-cache'
+      }
+    }).then(res=>res.json()).then((e)=>{
+      $("#energy").text(e + " KWH")
+    }).catch((e)=>console.log(e))
+  }, 1000);
+</script>
+

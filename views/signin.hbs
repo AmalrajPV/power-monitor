@@ -1,0 +1,46 @@
+<section class="vh-100 mt-4">
+  <div class="container-fluid h-custom">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-md-9 col-lg-6 col-xl-5">
+        <h3 class="my-5 display-5 fw-bold ls-tight">
+            Power Consumstion <br />
+            <span class="text-primary">Monitoring using ESP32</span>
+          </h3>
+          <p style="color: hsl(217, 10%, 50.8%)">
+            MCA mini project on IOT using ESP32 and Nodejs for monitoring electricity Consumstion at home remotely using webapp.
+          </p>
+      </div>
+      <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+        <form method="post" action="/signin">
+          <div class="fs-3 mb-3">Sign In</div>
+          {{#if err}}
+      <div class="alert alert-danger" role="alert">
+        {{err}}
+      </div>
+      {{/if}}
+          <!-- Email input -->
+          <div class="form-outline mb-4">
+            <label class="form-label" for="form3Example3">Email address</label>
+            <input type="email" id="form3Example3" class="form-control form-control-lg"
+              placeholder="Enter email address" value="{{data.email}}" name="email" />
+          </div>
+
+          <!-- Password input -->
+          <div class="form-outline mb-3">
+            <label class="form-label" for="form3Example4">Password</label>
+            <input type="password" id="form3Example4" class="form-control form-control-lg"
+              placeholder="Enter password" name="password" />
+          </div>
+
+          <div class="text-center text-lg-start mt-4 pt-2">
+            <button type="submit" class="btn btn-primary btn-lg"
+              style="padding-left: 2.5rem; padding-right: 2.5rem;">Sign In</button>
+            <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="/signup"
+                class="link-danger">Register</a></p>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

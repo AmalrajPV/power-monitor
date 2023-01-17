@@ -1,0 +1,21 @@
+<div class="container-fluid">
+    <form class="col-lg-6 col-md-8 col-12 mt-3 mx-auto" method="post" action="/admin/signin">
+      <div class="mb-3 fs-4">
+        Admin Sign In
+      </div>
+       {{#if err}}
+      <div class="alert alert-danger" role="alert">
+        {{err}}
+      </div>
+      {{/if}}
+        <div class="mb-3">
+          <label for="Email1" class="form-label">Email address</label>
+          <input type="email" name="email" value="{{data.email}}" class="form-control" id="Email1" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3">
+          <label for="Password1" class="form-label">Password</label>
+          <input type="password" name="password" class="form-control" id="Password1">
+        </div>
+        <button type="submit" class="btn btn-success">Submit</button>
+      </form>
+</div>
