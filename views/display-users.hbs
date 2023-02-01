@@ -1,0 +1,55 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="fs-5 mb-3">Users</div>
+    <div class="dropdown">
+      <button
+          type="button"
+          class="btn btn-outline-dark dropdown-toggle "
+          data-bs-toggle="dropdown"
+          data-bs-display="static"
+          aria-expanded="false"
+        >
+        Users
+        </button>
+        <ul class="dropdown-menu dropdown-menu-lg">
+          <li>
+            <a href="/admin/users" class="dropdown-item" type="button">Users</a>
+          </li>
+          <li>
+            <a href="/admin/users?active=true" class="dropdown-item" type="button">Active Users</a>
+          </li>
+          <li>
+            <a href="/admin/users?active=false" class="dropdown-item" type="button">Inactive Users</a>
+          </li>
+        </ul>
+    </div>
+    <table class="table mb-4">
+      <thead class="">
+        <tr>
+          <th scope="col" class="text-center">Username</th>
+          <th scope="col" class="text-center">Email</th>
+          <th scope="col" class="text-center">cid</th>
+          <th scope="col" class="text-center">key</th>
+          <th scope="col" class="text-center">Active?</th>
+        </tr>
+      </thead>
+      <tbody id="item-list">
+        {{#each result}}
+          <tr>
+            <td scope="col" class="text-center">{{this.username}}</td>
+            <td scope="col" class="text-center">{{this.email}}</td>
+            <td scope="col" class="text-center">{{this.cid}}</td>
+            <td scope="col" class="text-center">{{this.key}}</td>
+            <td scope="col" class="text-center">{{#if this.active}}<i
+                  class="fa-sharp fa-solid fa-circle-check"
+                  style="color: green; font-size:x-large;"
+                ></i>{{else}}<i
+                  class="fa-solid fa-circle-xmark"
+                  style="color: red; font-size:x-large;"
+                ></i>{{/if}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>

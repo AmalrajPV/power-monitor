@@ -1,5 +1,6 @@
 const admin = require("../models/adminModel");
 var bcrypt = require("bcrypt");
+const user = require("../models/userModel");
 
 module.exports = {
   signin: function (data) {
@@ -26,4 +27,24 @@ module.exports = {
       });
     });
   },
+  getUsers: function (cond) {
+    return new Promise((resolve, reject) => {
+      user
+        .find(cond)
+        .lean()
+        .then((res) => resolve(res))
+        .catch((err) => reject(err));
+    });
+  },
+  adminDashboard: function () {
+    return new Promise(async (resolve, reject)=>{
+      let n_active = 0;
+      let n_inactive = 0;
+    n_active = await user
+      .count({ active: true })
+    n_inactive = await user
+      .count({ active: false })
+      
+    return resolve({ active: n_active, inactive: n_inactive });
+  })},
 };

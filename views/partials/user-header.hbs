@@ -14,10 +14,12 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      {{#if user}}
       <div class="ms-auto">
+      {{#if active}}
         <div class="btn btn-danger" id="status">OFF</div>
       <button class="btn btn-outline-dark text-warning" id="power-toggle" style="outline: none;" id="toggleBtn" ><i class="fa-solid fa-lightbulb"></i></button>
+      {{/if}}
+      {{#if user}}
         <button
           type="button"
           class="btn btn-outline-dark dropdown-toggle "

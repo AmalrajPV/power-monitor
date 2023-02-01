@@ -5,16 +5,35 @@ const user = require("../models/userModel");
 const moment = require("moment");
 
 function calculateBill(units) {
+  let bill = 0
   if (units <= 100) {
-    return units * 10;
+    bill =  units * 10;
   } else if (units <= 200) {
-    return 100 * 10 + (units - 100) * 15;
+    bill = 100 * 10 + (units - 100) * 15;
   } else if (units <= 300) {
-    return 100 * 10 + 100 * 15 + (units - 200) * 20;
+    bill = 100 * 10 + 100 * 15 + (units - 200) * 20;
   } else if (units > 300) {
-    return 100 * 10 + 100 * 15 + 100 * 20 + (units - 300) * 25;
+    bill = 100 * 10 + 100 * 15 + 100 * 20 + (units - 300) * 25;
   }
-  return 0;
+  parseFloat(parseFloat(bill).toFixed(2))
+  return bill;
+}
+
+function reconnectUser(cid){
+  return new Promise((resolve, reject)=>{
+  user.findOneAndUpdate({
+    cid: cid
+  },
+  {
+  $set: {
+    active: true,
+    power_status: true,
+  }
+},
+{
+  new: true
+}).then(()=>{return resolve();}).catch((er)=>reject(er));
+});
 }
 
 module.exports = {
@@ -87,14 +106,87 @@ module.exports = {
   },
   getBills: function (key) {
     return new Promise(async (resolve, reject) => {
-      const paid = await payment.find({ key: key, paid: true }).lean();
-      const notpaid = await payment.findOne({ key: key, paid: false }).lean();
-      return resolve({ paid, notpaid });
+      
+      const notpaid = await payment.aggregate([
+        {
+            $match:{
+                paid: false, 
+                key: key
+            }
+        },
+        {
+            $project:{
+                createdAt: {
+                    $dateToString: {
+                        format: "%d-%m-%Y",
+                        date: "$createdAt"
+                    }
+                },
+                cid: 1,
+                consumption: 1,
+                key: 1,
+                username: 1,
+                mobile: 1,
+                amount: 1,
+                paid: 1
+            }
+        }
+    ]).sort({createdAt: -1});
+    
+      return resolve({ notpaid });
     });
+  },
+  getPaidBills: function(key, limit, offset) {
+    return new Promise(async(resolve, reject)=>{
+
+      const paid = await payment.aggregate([
+        {
+          $match:{
+            paid: true, 
+              key: key
+          }
+        },
+        {
+          $project:{
+              createdAt: {
+                  $dateToString: {
+                      format: "%d-%m-%Y",
+                      date: "$createdAt"
+                    }
+                  },
+                  updatedAt: {
+                  $dateToString: {
+                      format: "%d-%m-%Y",
+                      date: "$createdAt"
+                    }
+                  },
+              cid: 1,
+              consumption: 1,
+              key: 1,
+              username: 1,
+              mobile: 1,
+              amount: 1,
+              paid: 1
+            }
+          }
+        ]).sort({updatedAt: -1}).skip(offset).limit(limit);
+        count = await payment.countDocuments({paid: true,
+          key: key})
+        return resolve({paid, count});
+      })
+  },
+  isUserActive: function(id) {
+    return new Promise((resolve, reject)=>{
+      user.findOne(
+        {_id: id}).then((res)=>{
+          return resolve(res?.active)
+        }).catch((err)=>{return reject(err)});
+    })
+    
   },
   addBill: function () {
     return new Promise(async (resolve, reject) => {
-      (await user.find({})).forEach(async (e) => {
+      (await user.find({active:true})).forEach(async (e) => {
         const currentDate = new Date();
         const prevMonth = new Date(
           currentDate.getFullYear(),
@@ -132,6 +224,50 @@ module.exports = {
       });
       return resolve("success");
     });
+  },
+  disconnectUser: async()=>{
+    return new Promise(async (resolve, reject)=>{
+      (await payment.find({paid:false})).forEach(async (e) => {
+      user.findOneAndUpdate({
+        cid: e.cid
+      },
+      {
+      $set: {
+        active: false,
+        power_status: false,
+      }
+    },
+    {
+      new: true
+    }).catch((er)=>reject(er));
+    });
+    return resolve(true);
+  })
+  },
+  payBill: (cid, id)=>{
+    return new Promise((resolve, reject)=>{
+      payment.findOneAndUpdate({
+        cid: cid,
+        _id: id
+      },
+      {
+        $set: {
+          paid: true,
+        },
+      },
+      {
+        new: true,
+      }).then(async (res)=>{
+        let payments = await payment.find({
+          cid: cid,
+          paid: false
+        })
+        if (payments.length == 0) {
+          reconnectUser(cid);
+        }
+        return resolve(res)
+      }).catch((err)=>reject(err));
+    })
   },
   weeklySensor: (cid) => {
     return new Promise(async (resolve, reject) => {

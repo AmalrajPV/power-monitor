@@ -1,120 +1,148 @@
 <div class="container-fluid">
-      <div class="row my-3">
-        <div class="col-md-3">
-          <div class="col">
-            <div class="fs-5 mb-3 text-muted">Billing Details</div>
-            <div class="card  bg-body-tertiary mb-3  shadow-sm border-0">
-              {{#if payments.notpaid}}
-              <div class="card-body">
-                <div class="mb-4 text-dark">
-                  <h3 class="h4 mb-0">{{payments.notpaid.username}}</h3>
-                </div>
-                <ul class="list-unstyled mb-4">
-                  <li class="mb-3">
-                    <i
-                      data-bs-toggle="tooltip"
-                      data-bs-title="Mobile"
-                      class="fas fa-mobile-alt display-25 me-3 text-secondary"
-                    ></i
-                    >
-                    {{payments.notpaid.mobile}}
-                  </li>
-                  <li class="mb-3">
-                    <i
-                      data-bs-toggle="tooltip"
-                      data-bs-title="Customer id"
-                      class="fa-solid fa-user display-25 me-3 text-secondary"
-                    ></i
-                    >
-                    {{payments.notpaid.cid}}
-                  </li>
-                  <li class="mb-3">
-                    <i
-                      data-bs-toggle="tooltip"
-                      data-bs-title="Key"
-                      class="fa-solid fa-key display-25 me-3 text-secondary"
-                    ></i
-                    >
-                    {{payments.notpaid.key}}
-                  </li>
-                  <li class="mb-3">
-                    <i
-                      data-bs-toggle="tooltip"
-                      data-bs-title="Amount"
-                      class="fa-solid fa-sack-dollar display-25 me-3 text-secondary"
-                    ></i
-                    >
-                    {{payments.notpaid.amount}}
-                  </li>
-                </ul>
-                  <button class="btn btn-success">Pay Now</button>
-              </div>
-              {{else}}
-              <div class="card-body">
-              <div class="fs-5">No Pending Payments</div>
-              </div>
-              {{/if}}
+  <div class="row my-3">
+    <div class="col-md-3">
+      <div class="col">
+        <div class="fs-5 mb-3 text-muted">Billing Details</div>
+        <div class="card  bg-body-tertiary mb-3  shadow-sm border-0">
+          {{#if payments.notpaid}}
+          {{#each payments.notpaid}}
+          <div class="card-body">
+            <div class="mb-4 text-dark">
+              <h3 class="h4 mb-0">{{this.username}}</h3>
             </div>
+            <ul class="list-unstyled mb-4">
+              <li class="mb-3">
+                <i data-bs-toggle="tooltip" data-bs-title="Mobile"
+                  class="fas fa-mobile-alt display-25 me-3 text-secondary"></i>
+                {{this.mobile}}
+              </li>
+              <li class="mb-3">
+                <i data-bs-toggle="tooltip" data-bs-title="Customer id"
+                  class="fa-solid fa-user display-25 me-3 text-secondary"></i>
+                {{this.cid}}
+              </li>
+              <li class="mb-3">
+                <i data-bs-toggle="tooltip" data-bs-title="Key"
+                  class="fa-solid fa-key display-25 me-3 text-secondary"></i>
+                {{this.key}}
+              </li>
+              <li class="mb-3">
+                <i data-bs-toggle="tooltip" data-bs-title="Amount"
+                  class="fa-solid fa-sack-dollar display-25 me-3 text-secondary"></i>
+                {{this.amount}}
+              </li>
+              <li class="mb-3">
+                <i data-bs-toggle="tooltip" data-bs-title="Issue Date"
+                  class="fa-solid fa-calendar-days display-25 me-3 text-secondary"></i>
+                {{this.createdAt}}
+              </li>
+            </ul>
+            <button class="btn btn-success" onclick="payNow('{{this._id}}')">Pay Now</button>
           </div>
-        </div>
-        <div class="col-md-9">
-          <div class="fs-5 mb-3">Previous payments</div>
-  <table class="table mb-4">
-    <thead>
-      <tr>
-        <th scope="col">cid</th>
-        <th scope="col">consumption</th>
-        <th scope="col">amount</th>
-        <th scope="col">status</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each payments.paid}}
-        <tr>
-          <td>{{this.cid}}</td>
-          <td>{{this.consumption}} KWH</td>
-          <td>Rs. {{this.amount}}</td>
-          <td>
-            {{#if this.paid}}
-            <span><svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-              ><path
-                  fill="#0f0"
-                  d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597z"
-                >
-                </path>
-                </svg>
-                </span>
-                {{else}}
-            <span><svg
-                clip-rule="evenodd"
-                fill-rule="evenodd"
-                stroke-linejoin="round"
-                stroke-miterlimit="2"
-                viewBox="0 0 24 24"
-                width="24"
-                height="24"
-                xmlns="http://www.w3.org/2000/svg"
-              ><path
-                  fill="#f00"
-                  d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 8.933-2.721-2.722c-.146-.146-.339-.219-.531-.219-.404 0-.75.324-.75.749 0 .193.073.384.219.531l2.722 2.722-2.728 2.728c-.147.147-.22.34-.22.531 0 .427.35.75.751.75.192 0 .384-.073.53-.219l2.728-2.728 2.729 2.728c.146.146.338.219.53.219.401 0 .75-.323.75-.75 0-.191-.073-.384-.22-.531l-2.727-2.728 2.717-2.717c.146-.147.219-.338.219-.531 0-.425-.346-.75-.75-.75-.192 0-.385.073-.531.22z"
-                  fill-rule="nonzero"
-                >
-                </path>
-                </svg>
-                </span>
-                {{/if}}
-          </td>
-        </tr>
-      {{/each}}
-    </tbody>
-  </table>
+          {{/each}}
+          {{else}}
+          <div class="card-body">
+            <div class="fs-5">No Pending Payments</div>
+          </div>
+          {{/if}}
         </div>
       </div>
     </div>
+    <div class="col-md-9">
+      <div class="fs-5 mb-3">Previous payments</div>
+      <table class="table mb-4">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col">Consumption (KWH)</th>
+            <th scope="col">Amount (Rs)</th>
+            <th scope="col">Billing date</th>
+            <th scope="col">Payment date</th>
+            <th scope="col">Payment Id</th>
+          </tr>
+        </thead>
+        <tbody id="item-list">
+
+        </tbody>
+      </table>
+        <ul class="pagination justify-content-center pagination-sm">
+          <li class="page-item shadow-none">
+            <button class="page-link shadow-none" id="prev">Previous</button>
+          </li>
+          <li class="page-item">
+            <div class="page-link shadow-none" id="current-page"></div>
+          </li>
+          <li class="page-item shadow-none">
+            <button class="page-link shadow-none" id="next">Next</button>
+          </li>
+        </ul>
+    </div>
+  </div>
+</div>
 
 
+<script>
+  function payNow(id) {
+    let check = confirm("Confirm Payment")
+    if (check) fetch(`/paynow/${id}`).then(() => {
+      alert("Payment Complete")
+      location.reload();
+    });
+  }
+</script>
 
+<script>
+  let page = 1;
+  let pages = 0;
+  let tableBody = document.querySelector('#item-list');
+  function generateRow(page) {
+    fetch(`/paid-bill/${page}`,
+      {
+        headers: {
+          'Cache-Control': 'no-cache'
+        }
+      }).then(response => response.json()).then((dataToShow) => {
+        pages = dataToShow.pages;
+        let data = dataToShow.paid;
+        tableBody.innerHTML = "";
+        for (let i = 0; i < data.length; i++) {
+          let row = document.createElement('tr');
+
+          let consumption = document.createElement('td');
+          consumption.innerHTML = data[i].consumption;
+          row.appendChild(consumption);
+
+          let amount = document.createElement('td');
+          amount.innerHTML = data[i].amount;
+          row.appendChild(amount);
+
+          let createdAt = document.createElement('td');
+          createdAt.innerHTML = data[i].createdAt;
+          row.appendChild(createdAt);
+
+          let updatedAt = document.createElement('td');
+          updatedAt.innerHTML = data[i].updatedAt;
+          row.appendChild(updatedAt);
+
+          let _id = document.createElement('td');
+          _id.innerHTML = data[i]._id;
+          row.appendChild(_id);
+
+          tableBody.appendChild(row);
+          document.querySelector('#current-page').innerText = page;
+        }
+      }).catch((e) => console.log(e));
+  }
+  generateRow(1);
+  document.querySelector('#prev').addEventListener('click', ()=>{
+    if(page>1){
+    generateRow(--page);
+    }
+    }
+    )
+  document.querySelector('#next').addEventListener('click', ()=>{
+    if(page<pages){
+      generateRow(++page);
+      }
+      }
+      )
+</script>

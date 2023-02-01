@@ -1,10 +1,32 @@
 var express = require("express");
-const { signin, signup } = require("../controllers/adminController");
+const { signin, signup, getUsers, adminDashboard } = require("../controllers/adminController");
 const verifyAdmin = require("../controllers/verifyAdmin");
 var router = express.Router();
 
 router.get('/', verifyAdmin, (req, res, next)=>{
-    res.render('admin',{user: req.session.user,});
+    adminDashboard().then((result)=>{
+        console.log(result);
+        res.render('admin',{user: req.session.user, data: result});
+    }).catch((err)=>res.sendStatus(400));
+})
+
+router.get('/users', verifyAdmin, (req, res, next)=>{
+    let active = req.query.active;
+    
+    let qry;
+    if (active == 'true') {
+        qry = {active: true}
+    }
+    else if(active == 'false'){
+        qry = {active: false}
+    }
+    else{
+        qry = {}
+    }
+    getUsers(qry).then((result)=>{
+        res.render('display-users',{user: req.session.user, result});
+    }).catch((err)=>res.sendStatus(400));
+    
 })
 router.get('/signin', (req, res, next)=>{
     res.render('admin-signin');

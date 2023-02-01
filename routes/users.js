@@ -5,7 +5,7 @@ var router = express.Router();
 
 router.get("/edit", verifyLogin, function (req, res, next) {
   homeData(req.session.user.id)
-    .then((r) => {
+    .then(async(r) => {
       res.render("profile-edit", {
         user: req.session.user,
         details: {
@@ -13,6 +13,7 @@ router.get("/edit", verifyLogin, function (req, res, next) {
           mobile: r.mobile,
           key: r.key,
         },
+        active: await isUserActive(req.session.user.id)
       });
     })
 });

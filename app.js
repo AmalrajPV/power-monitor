@@ -58,10 +58,16 @@ app.use(
 
 
 const schedule = require('node-schedule');
-const { addBill } = require("./controllers/userController");
-const job = schedule.scheduleJob('* * * 1 * *', function(){
+const { addBill, disconnectUser } = require("./controllers/userController");
+
+const job1 = schedule.scheduleJob('* * * 1 * *', function(){
   addBill();
-  job.cancelNext('* * * 1 * *');
+  job1.cancelNext('* * * 1 * *');
+});
+
+const job2 = schedule.scheduleJob('* * * 4 * *', function(){
+  disconnectUser();
+  job2.cancelNext('* * * 4 * *');
 });
 
 app.use("/", indexRouter);
